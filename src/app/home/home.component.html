@@ -1,6 +1,6 @@
 <div class="grid-container">
   <h1 class="mat-h1">Alertes</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
+  <mat-grid-list cols="2">
     <mat-grid-tile [colspan]="1" [rowspan]="1" *ngFor="let monitoredUrl of monitoredUrls | async">
       <mat-card class="dashboard-card">
         <mat-card-header>
@@ -16,6 +16,70 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
+          <p class="my-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Nom</mat-label>
+              <input matInput type="text" placeholder="Nom" [(value)]="monitoredUrl.name" (blur)="onBlur(monitoredUrl)" required>
+            </mat-form-field>
+          </p>
+          <p class="my-container">
+            <mat-form-field appearance="outline">
+              <mat-label>URL</mat-label>
+              <input matInput type="text" placeholder="Nom" [(value)]="monitoredUrl.url" (blur)="onBlur(monitoredUrl)" required>
+            </mat-form-field>
+          </p>
+          <p class="my-container" *ngIf="monitoredUrl.cssSelector">
+            <mat-form-field appearance="outline">
+              <mat-label>Sélecteur CSS</mat-label>
+              <input matInput type="text" placeholder="Nom" [(value)]="monitoredUrl.cssSelector" (blur)="onBlur(monitoredUrl)" required>
+            </mat-form-field>
+          </p>
+          <p class="my-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Ordonnanceur</mat-label>
+              <input matInput type="text" placeholder="Nom" [(value)]="monitoredUrl.schedule" (blur)="onBlur(monitoredUrl)" required>
+              <mat-error>Syntaxe invalide</mat-error>
+            </mat-form-field>
+          </p>
+          <code>{{monitoredUrl.lastValue}}</code>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Ajouter une nouvelle alerte
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <p class="my-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Nom</mat-label>
+              <input matInput type="text" placeholder="Ma nouvelle alerte" #name>
+            </mat-form-field>
+          </p>
+          <p class="my-container">
+            <mat-form-field appearance="outline">
+              <mat-label>URL</mat-label>
+              <input matInput type="text" placeholder="http://www.google.fr" #url>
+            </mat-form-field>
+          </p>
+          <p class="my-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Sélecteur CSS</mat-label>
+              <input matInput type="text" placeholder="#value" #cssSelector>
+            </mat-form-field>
+          </p>
+          <p class="my-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Ordonnanceur</mat-label>
+              <input matInput type="text" placeholder="* 9-20 * * *" #schedule>
+            </mat-form-field>
+          </p>
+
+          <button (click)="addMonitoredUrl(name.value,url.value,cssSelector.value,schedule.value)">Ajouter</button>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
